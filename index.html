@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #000000;
+            --line: 2px;
+            --card-space: 60px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            
+            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            background: var(--bg);
+            display: inline-block;
+            padding: 20px;
+            border: 4px solid var(--ink);
+        }
+
+        .meta-subtitle {
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+
+        .timeline-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: var(--line);
+            background: var(--ink);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .spine::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: var(--ink);
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+        }
+
+        .week-container {
+            width: 50%;
+            position: relative;
+            padding: 0 40px 80px 40px;
+            box-sizing: border-box;
+            clear: both;
+            display: block;
+        }
+
+        .week-container.left {
+            margin-right: auto; 
+            text-align: right; 
+        }
+        
+        .week-container.right {
+            margin-left: auto; 
+            text-align: left;
+        }
+
+        .card {
+            background: var(--bg);
+            border: 2px solid var(--ink);
+            padding: 30px;
+            text-align: left; 
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 10px 10px 0px rgba(0,0,0,1);
+            z-index: 2;
+        }
+
+        .card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 14px 14px 0px rgba(0,0,0,1);
+            background: var(--ink);
+            color: var(--bg);
+        }
+
+        .card:hover .week-label { border-color: var(--bg); }
+        .card:hover li { border-bottom-color: #555; }
+        .card:hover .check { border-color: var(--bg); }
+
+        .week-container::before {
+            content: '';
+            position: absolute;
+            top: 45px; 
+            width: 40px; 
+            height: 2px;
+            background: var(--ink);
+            z-index: 1;
+        }
+        
+        .week-container::after {
+            content: '';
+            position: absolute;
+            top: 41px;
+            width: 10px;
+            height: 10px;
+            background: var(--bg);
+            border: 2px solid var(--ink);
+            border-radius: 50%;
+            z-index: 5;
+        }
+
+        .week-container.left::before { right: 0; }
+        .week-container.left::after { right: -6px; } 
+
+        .week-container.right::before { left: 0; }
+        .week-container.right::after { left: -6px; }
+
+        .week-label {
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            display: inline-block;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        ul { list-style: none; }
+        
+        li {
+            border-bottom: 1px dotted #ccc;
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+        }
+        li:last-child { border: none; }
+
+        .check {
+            width: 14px; 
+            height: 14px; 
+            border: 1px solid var(--ink);
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 800px) {
+            h1 { font-size: 3rem; }
+            .spine { left: 20px; } 
+            .week-container { width: 100%; padding-left: 60px; padding-right: 20px; margin: 0; }
+            .week-container.left { text-align: left; }
+            .week-container::before { left: 20px; width: 40px; right: auto; }
+            .week-container::after { left: 14px; right: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ROADMAP</h1>
+        <div class="meta-subtitle">45 Days</div>
+    </header>
+
+    <div class="timeline-wrapper">
+        <div class="spine"></div>
+
+        <div class="week-container left">
+            <div class="card">
+                <span class="week-label">Week 01 // Phase: Field Ops</span>
+                <h3>Testing & Feedback</h3>
+                <p>Initial field deployment with partner centers to collect critical data and advice.</p>
+                <ul>
+                    <li>Pilot Test: 2-3 Centers/Students <div class="check"></div></li>
+                    <li>Install SEB Browser @ Centers <div class="check"></div></li>
+                    <li>Collect Feedback/Advice <div class="check"></div></li>
+                    <li>Refine Weaknesses (Based on Feedback) <div class="check"></div></li>
+                    <li>Consult Workflow w/ Pros <div class="check"></div></li>
+                    <li>Enhance Admin Panel Tools <div class="check"></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="week-container right">
+            <div class="card">
+                <div class="week-label">Week 02 // Phase: Core Intelligence</div>
+                <h3>System Logic & AI</h3>
+                <p>Deepening the academic engine with AI analysis, better scoring, and centralized monitoring.</p>
+                <ul>
+                    <li>Implement AI Weakness Analysis <div class="check"></div></li>
+                    <li>Refine Scoring Algorithm <div class="check"></div></li>
+                    <li>Expand Question Bank & Quality <div class="check"></div></li>
+                    <li>Central Organization System <div class="check"></div></li>
+                    <li>Full System Statistics <div class="check"></div></li>
+                    <li>Exam Flow Monitoring <div class="check"></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="week-container left">
+            <div class="card">
+                <div class="week-label">Week 03 // Phase: Experience</div>
+                <h3>UX & Performance</h3>
+                <p>Aligning the interface with industry standards (Bluebook) and optimizing scalability.</p>
+                <ul>
+                    <li>UI Replication (Bluebook Replica) <div class="check"></div></li>
+                    <li>API Speed Optimization <div class="check"></div></li>
+                    <li>Question Bank Expansion <div class="check"></div></li>
+                    <li>Backup & Error Handling Sys <div class="check"></div></li>
+                    <li>Organization Customization (SaaS) <div class="check"></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="week-container right">
+            <div class="card">
+                <div class="week-label">Week 04 // Phase: Security</div>
+                <h3>Quality Control</h3>
+                <p>Pushing the system to its breaking point and fortifying all data barriers.</p>
+                <ul>
+                    <li>Mass User Stress Test (Endurance) <div class="check"></div></li>
+                    <li>System Capacity Thresholding <div class="check"></div></li>
+                    <li>Vulnerability Audits (Hacking) <div class="check"></div></li>
+                    <li>Full Security Upgrade <div class="check"></div></li>
+                    <li>Data Storage Encryption <div class="check"></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="week-container left">
+            <div class="card">
+                <div class="week-label">Week 05 // Phase: Verification</div>
+                <h3>Real-World Run</h3>
+                <p>Conducting final, high-fidelity real world simulations to guarantee perfection.</p>
+                <ul>
+                    <li>Live Environment Simulation <div class="check"></div></li>
+                    <li>End-to-End Logic Validation <div class="check"></div></li>
+                    <li>Zero-Error Checkpoint <div class="check"></div></li>
+                    <li>System Latency Audit <div class="check"></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="week-container right">
+            <div class="card" style="background: black; color: white;">
+                <div class="week-label" style="border-color: white;">Week 06 // Phase: Expansion</div>
+                <h3>Partnerships</h3>
+                <p>Establishing commercial relationships, earning trust, and scaling operations.</p>
+                <ul>
+                    <li style="border-bottom-color: #555;">Finalize Contracts w/ Centers <div class="check" style="border-color:white;"></div></li>
+                    <li style="border-bottom-color: #555;">Deploy Free Trials <div class="check" style="border-color:white;"></div></li>
+                    <li style="border-bottom-color: #555;">Trust Building Campaign <div class="check" style="border-color:white;"></div></li>
+                    <li style="border-bottom: none;">Strategic Planning (Next Moves) <div class="check" style="border-color:white;"></div></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; border-top: 1px solid #000; padding: 40px; margin-top: 40px;">
+    </div>
+
+</body>
+</html>
